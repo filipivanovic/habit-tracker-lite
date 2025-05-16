@@ -76,6 +76,11 @@ button.reset:hover {
   border-color: #999;
 }
 
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
 .button-panel {
   display: flex;
   justify-content: center;

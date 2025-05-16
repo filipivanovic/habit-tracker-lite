@@ -20,6 +20,7 @@ const defaultHabits = [
 
 const App = () => {
   const [habits, setHabits] = useState(defaultHabits)
+  const noHabits = habits.length === 0
 
   const handleAddHabit = (habit) => {
     setHabits([...habits, habit])
@@ -37,7 +38,10 @@ const App = () => {
   }
 
   const resetAll = () => {
-    setHabits([])
+    if (habits.length === 0) return
+    if (window.confirm('Are you sure you want to remove all habits?')) {
+      setHabits([])
+    }
   }
 
   return (
@@ -45,7 +49,7 @@ const App = () => {
       <h1>Habit tracker</h1>
       <HabitForm onAddHabit={handleAddHabit} />
       <HabitList habits={habits} onToggleDay={handleToggleDay} />
-      <Button onClick={resetAll}>Reset All</Button>
+      <Button onClick={resetAll} disabled={noHabits}>Reset All</Button>
     </div>
   )
 }
@@ -55,21 +59,26 @@ const HabitForm = ({onAddHabit}) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    const trimmed = habit.trim()
+    if (!trimmed) return
+
     const newHabit = {
       id: window.crypto.randomUUID(),
-      name: habit,
-      progress: [false, false, false, false, false, false, false]
+      name: trimmed,
+      progress: Array(7).fill(false)
     }
     if (newHabit.name.length === 0) return
     onAddHabit(newHabit)
-    console.log(newHabit)
+    setHabit('')
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <label>Add habit</label>
       <input type="text" value={habit} onChange={(e) => setHabit(e.target.value)} />
-      <Button>Add</Button>
+      <Button onClick={handleSubmit} disabled={!habit.trim()}>
+        Add
+      </Button>
     </form>
   )
 }
@@ -102,10 +111,10 @@ const HabitItem = ({ habit, onToggleDay }) => {
   )
 }
 
-const Button = ({children, onClick}) => {
+const Button = ({ children, ...props }) => {
   return (
     <div className="button-panel">
-      <button onClick={onClick}>{children}</button>
+      <button {...props}>{children}</button>
     </div>
   )
 }
