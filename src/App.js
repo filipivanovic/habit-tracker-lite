@@ -21,6 +21,10 @@ const defaultHabits = [
 const App = () => {
   const [habits, setHabits] = useState(defaultHabits)
 
+  const handleAddHabit = (habit) => {
+    setHabits([...habits, habit])
+  }
+
   const resetAll = () => {
     setHabits([])
   }
@@ -28,17 +32,30 @@ const App = () => {
   return (
     <div className="app">
       <h1>Habit tracker</h1>
-      <HabitForm />
+      <HabitForm onAddHabit={handleAddHabit} />
       <HabitList habits={habits} />
       <Button onClick={resetAll}>Reset All</Button>
     </div>
   )
 }
 
-const HabitForm = () => {
+const HabitForm = ({onAddHabit}) => {
   const [habit, setHabit] = useState('')
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const newHabit = {
+      id: window.crypto.randomUUID(),
+      name: habit,
+      progress: [false, false, false, false, false, false, false]
+    }
+    if (newHabit.name.length === 0) return
+    onAddHabit(newHabit)
+    console.log(newHabit)
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <label>Add habit</label>
       <input type="text" value={habit} onChange={(e) => setHabit(e.target.value)} />
       <Button>Add</Button>
