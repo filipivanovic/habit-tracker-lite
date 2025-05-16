@@ -1,13 +1,153 @@
+/* Base */
 body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f2f4f7;
+  color: #333;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.app {
+  max-width: 700px;
+  margin: 2rem auto;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #0f172a;
+}
+
+/* Form */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+}
+
+label {
+  font-weight: 600;
+  color: #444;
+}
+
+input[type='text'] {
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+input::placeholder {
+  color: #aaa;
+}
+
+/* Buttons */
+button {
+  padding: 0.6rem 1.2rem;
+  background-color: #0f172a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #1e293b;
+}
+
+button.reset {
+  background: transparent;
+  color: #444;
+  border: 2px solid #ccc;
+}
+
+button.reset:hover {
+  background-color: #f1f1f1;
+  border-color: #999;
+}
+
+.button-panel {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+/* Habit List */
+.habit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Habit Item */
+.habit-card {
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.habit-name {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: #1e293b;
+}
+
+/* Day Tracker Grid */
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.day-box {
+  aspect-ratio: 1 / 1;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.day-box:hover {
+  border-color: #888;
+}
+
+.day-box.completed {
+  background-color: #10b981;
+  border-color: #059669;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .app {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .day-grid {
+    gap: 0.4rem;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  .button-panel {
+    flex-direction: column;
+  }
 }
