@@ -25,6 +25,17 @@ const App = () => {
     setHabits([...habits, habit])
   }
 
+  const handleToggleDay = (habitId, dayIndex) => {
+    const habit = habits.find(h => h.id === habitId)
+    const newProgress = [...habit.progress]
+    newProgress[dayIndex] = !newProgress[dayIndex]
+    const newHabit = {
+      ...habit,
+      progress: newProgress
+    }
+    setHabits(habits.map(h => h.id === habitId ? newHabit : h))
+  }
+
   const resetAll = () => {
     setHabits([])
   }
@@ -33,7 +44,7 @@ const App = () => {
     <div className="app">
       <h1>Habit tracker</h1>
       <HabitForm onAddHabit={handleAddHabit} />
-      <HabitList habits={habits} />
+      <HabitList habits={habits} onToggleDay={handleToggleDay} />
       <Button onClick={resetAll}>Reset All</Button>
     </div>
   )
@@ -63,26 +74,28 @@ const HabitForm = ({onAddHabit}) => {
   )
 }
 
-const HabitList = ({habits}) => {
+const HabitList = ({habits, onToggleDay}) => {
   return (
     <div className="habit-list">
-      { habits.map(habit => <HabitItem key={habit.id} habit={habit} />)}
+      { habits.map(habit => <HabitItem key={habit.id} habit={habit} onToggleDay={onToggleDay} />)}
     </div>
   )
 }
 
 const HabitItem = ({ habit, onToggleDay }) => {
+  const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
   return (
     <div className="habit-card">
       <div className="habit-name">{habit.name}</div>
       <div className="day-grid">
         {habit.progress.map((completed, dayIndex) => (
-          <div
-            key={dayIndex}
-            className={`day-box ${completed ? 'completed' : ''}`}
-            onClick={() => onToggleDay(habit.id, dayIndex)}
-            title={`Day ${dayIndex + 1}`}
-          />
+          <div className="day-cell" key={dayIndex}>
+            <div className="day-label">{dayNames[dayIndex]}</div>
+            <div
+              className={`day-box ${completed ? 'completed' : ''}`}
+              onClick={() => onToggleDay(habit.id, dayIndex)}
+            />
+          </div>
         ))}
       </div>
     </div>
